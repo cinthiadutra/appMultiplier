@@ -7,12 +7,19 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset('assets/images/iconMob.jpeg'),
+        title: Image.asset(
+          'assets/images/iconMob.jpeg',
+          scale: 2.0,
+        ),
       ),
+      endDrawer: const EndDrawerButton(),
       body: Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/blackBackground.jpg'))),
+                fit: BoxFit.cover,
+                image: AssetImage(
+                  'assets/images/blackBackground.jpg',
+                ))),
       ),
     );
   }

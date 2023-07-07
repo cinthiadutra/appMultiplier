@@ -1,5 +1,4 @@
-import 'package:app_multiplier/multiplier_binding.dart';
-import 'package:app_multiplier/routes/app_pages.dart';
+import 'package:app_multiplier/core/ui/multiplier_ui.dart';
 import 'package:app_multiplier/views/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,16 +13,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      getPages: [
-        ...AppPages,
-      ],
+      getPages: [GetPage(name: '/home', page: () => const HomePage())],
       title: 'Mobcar',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: MultiplierUi.theme,
       home: const HomePage(),
-      initialBinding: MultiplierBinding(),
+      initialRoute: 'home',
     );
   }
 }
