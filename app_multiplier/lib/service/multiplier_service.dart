@@ -11,45 +11,91 @@ class MultiplierService extends GetxService {
 
   final String urlBase = 'https://parallelum.com.br/fipe';
 
-  Future<Either<String, MarcasModel>> buscarMarcas() async {
+  Future<Either<String, List<MarcasModel>>> buscarMarcas() async {
     try {
       final response =
           await dio.get('https://parallelum.com.br/fipe/api/v1/carros/marcas');
-      final model = MarcasModel.fromMap(response.data);
-      return right(model);
+      if (response.statusCode == 200) {
+        final data = response.data;
+        if (data is List) {
+          final marca = data
+              .map((objetoJson) => MarcasModel.fromMap(objetoJson))
+              .toList();
+          return Right(marca);
+        } else {
+          return Left(data.printError());
+        }
+      } else {
+        return Left('Erro na solicitação: ${response.statusCode}');
+      }
     } catch (e) {
-      return left('error');
-    }
-  }
-  Future<Either<String, ModeloModel>> buscarModelo(String codeMarca) async {
-    try {
-      final response =
-          await dio.get('https://parallelum.com.br/fipe/api/v1/carros/marcas/$codeMarca/modelos');
-      final model = ModeloModel.fromMap(response.data);
-      return right(model);
-    } catch (e) {
-      return left('error');
-    } 
-  }
-  Future<Either<String, AnoModel>> buscarAno(String codeMarca, String codeModelo) async {
-    try {
-      final response =
-          await dio.get('https://parallelum.com.br/fipe/api/v1/carros/marcas/$codeMarca/modelos/$codeModelo/anos');
-      final model = AnoModel.fromMap(response.data);
-      return right(model);
-    } catch (e) {
-      return left('error');
+      return Left('$e'.toString());
     }
   }
 
-  Future<Either<String, ValorResponse>> buscarValor(String codeMarca, String codeModelo,String codeAno, ) async {
+  Future<Either<String, List<ModeloModel>>> buscarModelo(
+      String codeMarca) async {
     try {
-      final response =
-          await dio.get('https://parallelum.com.br/fipe/api/v1/carros/marcas/$codeMarca/modelos/$codeModelo/anos/$codeAno');
-      final model = ValorResponse.fromMap(response.data);
-      return right(model);
+      final response = await dio.get(
+          'https://parallelum.com.br/fipe/api/v1/carros/marcas/$codeMarca/modelos');
+      if (response.statusCode == 200) {
+        final data = response.data;
+        if (data is List) {
+          final modelo = data
+              .map((objetoJson) => ModeloModel.fromMap(objetoJson))
+              .toList();
+          return Right(modelo);
+        } else {
+          return Left(data.printError());
+        }
+      } else {
+        return Left('Erro na solicitação: ${response.statusCode}');
+      }
     } catch (e) {
-      return left('error');
+      return Left('$e'.toString());
+    }
+  }
+
+  Future<Either<String, List<AnoModel>>> buscarAno(
+      String codeMarca, String codeModelo) async {
+    try {
+      final response = await dio.get(
+          'https://parallelum.com.br/fipe/api/v1/carros/marcas/$codeMarca/modelos/$codeModelo/anos');
+      if (response.statusCode == 200) {
+        final data = response.data;
+        if (data is List) {
+          final ano =
+              data.map((objetoJson) => AnoModel.fromMap(objetoJson)).toList();
+          return Right(ano);
+        } else {
+          return Left(data.printError());
+        }
+      } else {
+        return Left('Erro na solicitação: ${response.statusCode}');
+      }
+    } catch (e) {
+      return Left('$e'.toString());
+    }
+  }
+
+  Future<Either<String, ValorResponse>> buscarValor(
+    String codeMarca,
+    String codeModelo,
+    String codeAno,
+  ) async {
+    try {
+      final response = await dio.get(
+          'https://parallelum.com.br/fipe/api/v1/carros/marcas/$codeMarca/modelos/$codeModelo/anos/$codeAno');
+
+      if (response.statusCode == 200) {
+        final model = ValorResponse.fromMap(response.data);
+
+        return Right(model);
+      } else {
+        return Left('Erro na solicitação: ${response.statusCode}');
+      }
+    } catch (e) {
+      return Left('$e'.toString());
     }
   }
 }

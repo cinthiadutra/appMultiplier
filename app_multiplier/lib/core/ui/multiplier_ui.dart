@@ -5,6 +5,7 @@ class MultiplierUi {
 
   static ThemeData theme = ThemeData(
     primaryColor: Colors.black,
+    secondaryHeaderColor: Colors.black,
     appBarTheme: const AppBarTheme(
         color: Colors.black,
         centerTitle: false,

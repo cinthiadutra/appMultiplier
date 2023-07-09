@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class DrawerMobcar extends Drawer {
   const DrawerMobcar({
@@ -7,17 +6,14 @@ class DrawerMobcar extends Drawer {
     Widget? child,
   }) : super(key: key, child: child);
 
-  void _onMenuItemSelected(Widget value) {
-    Get.to(() => value);
-  }
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
-        children: [
-          const DrawerHeader(
+        children: const [
+          DrawerHeader(
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
@@ -29,10 +25,9 @@ class DrawerMobcar extends Drawer {
               ),
             ),
           ),
-          const ListTile(
+          ListTile(
             title: Text('Itens do menu'),
           ),
-          
         ],
       ),
     );

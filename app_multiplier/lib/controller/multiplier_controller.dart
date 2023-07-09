@@ -5,6 +5,7 @@ import 'package:app_multiplier/model/marcas_model.dart';
 import 'package:app_multiplier/model/modelo_model.dart';
 import 'package:app_multiplier/model/valor_response.dart';
 import 'package:app_multiplier/service/multiplier_service.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class MultiplierController extends GetxController {
@@ -14,6 +15,7 @@ class MultiplierController extends GetxController {
   String modeloSelecionado = '';
   String marcaSelecionada = '';
   String anoSelecionado = '';
+  TextEditingController valor = TextEditingController();
 
   Rx<ValorResponse> valoresCarros = Rx<ValorResponse>(ValorResponse(
       anoModelo: 0000,
@@ -25,12 +27,12 @@ class MultiplierController extends GetxController {
       mesReferencia: '',
       siglaCombustivel: '',
       tipoVeiculo: 1));
-  late final MultiplierService service;
+  final service = Get.put<MultiplierService>(MultiplierService());
 
   Future<void> listarMarcas() async {
     final response = await service.buscarMarcas();
     response.fold((error) => printError(), (model) async {
-      listaDeMarcas.value.add(model);
+      listaDeMarcas.value.assignAll(model);
       listaDeMarcas.refresh();
     });
   }
@@ -40,7 +42,7 @@ class MultiplierController extends GetxController {
     final response = await service.buscarModelo(request);
     response.fold((error) => const HttpException('Erro na busca'),
         (model) async {
-      listaDeModelos.value.add(model);
+      listaDeModelos.value.assignAll(model);
       listaDeModelos.refresh();
     });
   }
@@ -50,7 +52,7 @@ class MultiplierController extends GetxController {
         await service.buscarAno(marcaSelecionada, modeloSelecionado);
     response.fold((error) => const HttpException('Erro na busca de ano'),
         (model) async {
-      listaDeAno.value.add(model);
+      listaDeAno.value.assignAll(model);
       listaDeAno.refresh();
     });
   }

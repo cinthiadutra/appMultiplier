@@ -1,4 +1,6 @@
+import 'package:app_multiplier/views/cadastro_carro_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AppbarMobcar extends AppBar {
   AppbarMobcar({
@@ -20,13 +22,16 @@ class AppbarMobcar extends AppBar {
                 position: PopupMenuPosition.under,
                 itemBuilder: (BuildContext context) {
                   return <PopupMenuEntry<String>>[
-                    const PopupMenuItem<String>(
-                      value: 'item1',
-                      child: Text('Item 1'),
+                    PopupMenuItem<String>(
+                      value: 'Veiculos Cadastrados',
+                      child: const Text('Veiculos Cadastrados'),
+                      onTap: () {
+                        Get.to((() => CadastroCarroPage()));
+                      },
                     ),
                     const PopupMenuItem<String>(
                       value: 'item2',
-                      child: Text('Item 2'),
+                      child: Text('Menu 2'),
                     ),
                   ];
                 },
