@@ -24,38 +24,39 @@ class ValorResponse {
 
   @override
   String toString() {
-    return 'ValorResponse(tipoVeiculo: $tipoVeiculo, valor: $valor, marca: $marca, modelo: $modelo, anoModelo: $anoModelo, combustivel: $combustivel, codigoFipe: $codigoFipe, mesReferencia: $mesReferencia, siglaCombustivel: $siglaCombustivel)';
+    return 'ValorResponse(TipoVeiculo: $tipoVeiculo, Valor: $valor, Marca: $marca, Modelo: $modelo, AnoModelo: $anoModelo, Combustivel: $combustivel, CodigoFipe: $codigoFipe, MesReferencia: $mesReferencia, SiglaCombustivel: $siglaCombustivel)';
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'tipoVeiculo': tipoVeiculo,
-      'valor': valor,
-      'marca': marca,
-      'modelo': modelo,
-      'anoModelo': anoModelo,
-      'combustivel': combustivel,
-      'codigoFipe': codigoFipe,
-      'mesReferencia': mesReferencia,
-      'siglaCombustivel': siglaCombustivel,
+      'TipoVeiculo': tipoVeiculo,
+      'Valor': valor,
+      'Marca': marca,
+      'Modelo': modelo,
+      'AnoModelo': anoModelo,
+      'Combustivel': combustivel,
+      'CodigoFipe': codigoFipe,
+      'MesReferencia': mesReferencia,
+      'SiglaCombustivel': siglaCombustivel,
     };
   }
 
   factory ValorResponse.fromMap(Map<String, dynamic> map) {
     return ValorResponse(
-      tipoVeiculo: map['tipoVeiculo']?.toInt() ?? 0,
-      valor: map['valor'] ?? '',
-      marca: map['marca'] ?? '',
-      modelo: map['modelo'] ?? '',
-      anoModelo: map['anoModelo']?.toInt() ?? 0,
-      combustivel: map['combustivel'] ?? '',
-      codigoFipe: map['codigoFipe'] ?? '',
-      mesReferencia: map['mesReferencia'] ?? '',
-      siglaCombustivel: map['siglaCombustivel'] ?? '',
+      tipoVeiculo: map['TipoVeiculo']?.toInt(),
+      valor: map['Valor'],
+      marca: map['Marca'],
+      modelo: map['Modelo'],
+      anoModelo: map['AnoModelo'],
+      combustivel: map['Combustivel'],
+      codigoFipe: map['CodigoFipe'],
+      mesReferencia: map['MesReferencia'],
+      siglaCombustivel: map['SiglaCombustivel'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory ValorResponse.fromJson(String source) => ValorResponse.fromMap(json.decode(source));
+  factory ValorResponse.fromJson(String source) =>
+      ValorResponse.fromMap(json.decode(source));
 }

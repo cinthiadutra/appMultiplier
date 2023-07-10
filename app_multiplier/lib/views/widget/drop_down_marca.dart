@@ -89,7 +89,7 @@ class DropDownMarca extends StatelessWidget {
           onChanged: (value) {
             var marcaModel = value as MarcasModel;
 
-            onChanged!(marcaModel.codigo);
+            onChanged!(marcaModel.codigo.toString());
           },
           onSaved: (value) {
             var nameMarcasModel = value as MarcasModel;
@@ -120,7 +120,6 @@ class DropDownMarca extends StatelessWidget {
           color: Colors.black,
           fontSize: 16,
           fontFamily: 'Inter',
-          fontWeight: FontWeight.bold,
         );
     }
   }

@@ -4,6 +4,7 @@ import 'package:app_multiplier/multiplier_binding.dart';
 import 'package:app_multiplier/routes/app_routes.dart';
 import 'package:app_multiplier/views/cadastro_carro_page.dart';
 import 'package:app_multiplier/views/home_page.dart';
+import 'package:app_multiplier/views/lista_carros.dart';
 import 'package:app_multiplier/views/splash_page.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
@@ -19,7 +20,7 @@ List<GetPage> AppPages = [
       binding: MultiplierBinding()),
   GetPage(
       name: AppRoutes.cadastrados,
-      page: () =>  CadastroCarroPage(),
+      page: () =>  ListaCarros(),
       binding: MultiplierBinding()),
 ];
 

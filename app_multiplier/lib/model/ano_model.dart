@@ -3,26 +3,26 @@ import 'dart:convert';
 
 class AnoModel {
   final String codigo;
-  final String name;
+  final String nome;
   AnoModel({
     required this.codigo,
-    required this.name,
+    required this.nome,
   });
 
   @override
-  String toString() => 'AnoModel(codigo: $codigo, name: $name)';
+  String toString() => 'AnoModel(codigo: $codigo, nome: $nome)';
 
   Map<String, dynamic> toMap() {
     return {
       'codigo': codigo,
-      'name': name,
+      'nome': nome,
     };
   }
 
   factory AnoModel.fromMap(Map<String, dynamic> map) {
     return AnoModel(
       codigo: map['codigo'] ?? '',
-      name: map['name'] ?? '',
+      nome: map['nome'] ?? '',
     );
   }
 

@@ -1,25 +1,27 @@
 import 'package:app_multiplier/controller/multiplier_controller.dart';
+import 'package:app_multiplier/model/carro_model.dart';
 import 'package:app_multiplier/views/widget/drop_down_ano.dart';
 import 'package:app_multiplier/views/widget/drop_down_marca.dart';
 import 'package:app_multiplier/views/widget/drop_down_modelo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class PageCarro extends GetView<MultiplierController> {
+class FormPageCarro extends GetView<MultiplierController> {
   @override
-  final controller = Get.put<MultiplierController>(MultiplierController());
-  final formKey = GlobalKey<FormState>();
-  PageCarro({super.key});
+  // final controller = Get.put<MultiplierController>(MultiplierController());
+
+  final CarroModel item;
+  FormPageCarro(this.item, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 400,
-        height: 600,
+        height: 380,
+        width: MediaQuery.of(context).size.width,
         child: ListView(shrinkWrap: true, children: [
           Image.asset(
             'assets/images/mercedes.jpg',
-            height: 150,
+            height: 120,
           ),
           FutureBuilder(
               future: controller.listarMarcas(),
@@ -32,7 +34,7 @@ class PageCarro extends GetView<MultiplierController> {
                   case ConnectionState.active:
                   case ConnectionState.done:
                     return ListView(shrinkWrap: true, children: [
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 20),
                       Obx(() {
                         return DropDownMarca(
                           items: controller.listaDeMarcas.value,
@@ -72,25 +74,30 @@ class PageCarro extends GetView<MultiplierController> {
                             controller.anoSelecionado.obs;
 
                             await controller.listarValor();
+                            controller.valorCarro.obs;
                           })),
                       const SizedBox(
                         height: 10,
                       ),
-                      SizedBox(
-                        height: 40,
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                              enabledBorder: OutlineInputBorder()),
-                          focusNode: FocusNode(),
-                          controller: controller.valor,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Preencha o campo';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
+                      Obx(() {
+                        return controller.isLoading.value
+                            ? const CircularProgressIndicator()
+                            : Container(
+                                width: 300,
+                                padding: const EdgeInsets.only(top: 5, left: 5),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(
+                                    width: 1,
+                                  ),
+                                ),
+                                height: 35,
+                                child: Text(
+                                  controller.valorCarro.value.obs.value,
+                                  textAlign: TextAlign.left,
+                                ),
+                              );
+                      }),
                       const SizedBox(
                         height: 10,
                       ),
@@ -114,7 +121,9 @@ class PageCarro extends GetView<MultiplierController> {
                               style: const ButtonStyle(
                                   backgroundColor:
                                       MaterialStatePropertyAll(Colors.black)),
-                              onPressed: () {},
+                              onPressed: () {
+                                controller.addCarro(item);
+                              },
                               child: const Text('Salvar',
                                   style: TextStyle(color: Colors.white)))
                         ],

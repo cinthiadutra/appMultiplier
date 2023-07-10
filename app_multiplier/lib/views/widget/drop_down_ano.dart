@@ -81,7 +81,7 @@ class DropDownAno extends StatelessWidget {
             return DropdownMenuItem<AnoModel>(
               value: value,
               child: Text(
-                value.name,
+                value.nome,
                 overflow: TextOverflow.ellipsis,
               ),
             );
@@ -93,7 +93,7 @@ class DropDownAno extends StatelessWidget {
           },
           onSaved: (value) {
             var nameAnoModel = value as AnoModel;
-            onSaved!(nameAnoModel.name);
+            onSaved!(nameAnoModel.nome);
           }),
     );
   }
@@ -129,7 +129,7 @@ class DropDownAno extends StatelessWidget {
     switch (shape) {
       default:
         return BorderRadius.circular(
-          6.00,
+          4.00,
         );
     }
   }

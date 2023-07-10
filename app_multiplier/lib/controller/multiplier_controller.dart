@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:app_multiplier/model/ano_model.dart';
+import 'package:app_multiplier/model/carro_model.dart';
 import 'package:app_multiplier/model/marcas_model.dart';
 import 'package:app_multiplier/model/modelo_model.dart';
 import 'package:app_multiplier/model/valor_response.dart';
@@ -13,11 +14,14 @@ class MultiplierController extends GetxController {
   Rx<List<ModeloElement>> listaDeModelos = Rx<List<ModeloElement>>([]);
   Rx<List<Modelo>> listaDeModelosEAnos = Rx<List<Modelo>>([]);
   Rx<List<AnoModel>> listaDeAno = Rx<List<AnoModel>>([]);
+  Rx<List<CarroModel>> carros = Rx<List<CarroModel>>([]);
   String modeloSelecionado = '';
   String marcaSelecionada = '';
   String anoSelecionado = '';
   TextEditingController valor = TextEditingController();
   RxString valorCarro = RxString('0,00');
+  var isLoading = false.obs;
+  var carrosCadastrados = <CarroModel>[].obs;
 
   Rx<ValorResponse> valoresCarros = Rx<ValorResponse>(ValorResponse(
       anoModelo: 0000,
@@ -29,11 +33,18 @@ class MultiplierController extends GetxController {
       mesReferencia: '',
       siglaCombustivel: '',
       tipoVeiculo: 1));
+  Rx<CarroModel> carroCadastrado =
+      Rx<CarroModel>(CarroModel(marca: '', modelo: '', ano: '', valor: ''));
   final service = Get.put<MultiplierService>(MultiplierService());
 
   Future<void> listarMarcas() async {
+    isLoading.value = true;
     final response = await service.buscarMarcas();
+    listaDeModelos.value.clear();
+    listaDeAno.value.clear();
+    valorCarro.value = '0.00';
     response.fold((error) => printError(), (model) async {
+      isLoading.value = false;
       listaDeMarcas.value.assignAll(model);
       listaDeMarcas.refresh();
     });
@@ -66,9 +77,29 @@ class MultiplierController extends GetxController {
     response.fold(
         (error) => const HttpException('Erro ao buscar informações e valores'),
         (model) async {
+      valorCarro.value = model.valor.toString();
+      valorCarro.refresh();
+      valorCarro.obs;
       valoresCarros.value = model;
       valoresCarros.refresh();
-      valorCarro.value = model.valor.toString();
     });
+  }
+
+  Future<void> salvarCadastro() async {
+    carroCadastrado.value = CarroModel(
+        marca: marcaSelecionada,
+        modelo: modeloSelecionado,
+        ano: anoSelecionado,
+        valor: valorCarro.value);
+    carroCadastrado.refresh();
+    Navigator.pop(Get.context!);
+  }
+
+  void addCarro(CarroModel item) {
+    carrosCadastrados.add(item);
+  }
+
+  void removeItem(CarroModel item) {
+    carrosCadastrados.remove(item);
   }
 }

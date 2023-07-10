@@ -14,18 +14,19 @@ class MarcasModel {
   Map<String, dynamic> toMap() {
     return {
       'codigo': codigo,
-      'Acura': nome,
+      'nome': nome,
     };
   }
 
   factory MarcasModel.fromMap(Map<String, dynamic> map) {
     return MarcasModel(
-      codigo: map['codigo'] ?? '',
-      nome: map['Acura'] ?? '',
+      codigo: map['codigo'],
+      nome: map['nome'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory MarcasModel.fromJson(String source) => MarcasModel.fromMap(json.decode(source));
+  factory MarcasModel.fromJson(String source) =>
+      MarcasModel.fromMap(json.decode(source));
 }

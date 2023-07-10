@@ -1,4 +1,4 @@
-import 'package:app_multiplier/views/cadastro_carro_page.dart';
+import 'package:app_multiplier/views/lista_carros.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -33,7 +33,7 @@ class AppbarMobcar extends AppBar {
                         style: TextStyle(color: Colors.blue),
                       ),
                       onTap: () {
-                        Get.to((() => CadastroCarroPage()));
+                        Get.to((() => ListaCarros()));
                       },
                     ),
                     const PopupMenuItem<String>(
