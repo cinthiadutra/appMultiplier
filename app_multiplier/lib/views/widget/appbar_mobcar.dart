@@ -18,20 +18,30 @@ class AppbarMobcar extends AppBar {
             ),
             actions: [
               PopupMenuButton<String>(
-                icon: const Icon(Icons.menu_open_rounded),
+                color: Colors.transparent,
+                icon: const Icon(
+                  Icons.menu_open_rounded,
+                  color: Colors.blue,
+                ),
                 position: PopupMenuPosition.under,
                 itemBuilder: (BuildContext context) {
                   return <PopupMenuEntry<String>>[
                     PopupMenuItem<String>(
                       value: 'Veiculos Cadastrados',
-                      child: const Text('Veiculos Cadastrados'),
+                      child: const Text(
+                        'Veiculos Cadastrados',
+                        style: TextStyle(color: Colors.blue),
+                      ),
                       onTap: () {
                         Get.to((() => CadastroCarroPage()));
                       },
                     ),
                     const PopupMenuItem<String>(
                       value: 'item2',
-                      child: Text('Menu 2'),
+                      child: Text(
+                        'Menu 2',
+                        style: TextStyle(color: Colors.blue),
+                      ),
                     ),
                   ];
                 },

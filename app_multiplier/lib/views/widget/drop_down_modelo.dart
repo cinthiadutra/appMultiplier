@@ -48,7 +48,7 @@ class DropDownModelo extends StatelessWidget {
 
   final BoxConstraints? prefixConstraints;
 
-  final List<ModeloModel>? items;
+  final List<ModeloElement>? items;
 
   final Function(String)? onChanged;
   final Function(String)? onSaved;
@@ -77,23 +77,23 @@ class DropDownModelo extends StatelessWidget {
           icon: icon,
           style: _setFontStyle(),
           decoration: _buildDecoration(),
-          items: items?.map<DropdownMenuItem<ModeloModel>>((ModeloModel value) {
-            return DropdownMenuItem<ModeloModel>(
+          items: items?.map<DropdownMenuItem<ModeloElement>>((ModeloElement value) {
+            return DropdownMenuItem<ModeloElement>(
               value: value,
               child: Text(
-                value.name,
+                value.nome,
                 overflow: TextOverflow.ellipsis,
               ),
             );
           }).toList(),
           onChanged: (value) {
-            var modelosModel = value as ModeloModel;
+            var modelosModel = value as ModeloElement;
 
-            onChanged!(modelosModel.codigo);
+            onChanged!(modelosModel.codigo.toString());
           },
           onSaved: (value) {
-            var nameModeloModel = value as ModeloModel;
-            onSaved!(nameModeloModel.name);
+            var nameModeloModel = value as ModeloElement;
+            onSaved!(nameModeloModel.nome);
           }),
     );
   }
@@ -129,7 +129,7 @@ class DropDownModelo extends StatelessWidget {
     switch (shape) {
       default:
         return BorderRadius.circular(
-          6.00,
+          4.00,
         );
     }
   }

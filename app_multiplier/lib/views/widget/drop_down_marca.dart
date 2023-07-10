@@ -83,7 +83,6 @@ class DropDownMarca extends StatelessWidget {
               child: Text(
                 value.nome,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(color: Colors.black),
               ),
             );
           }).toList(),
@@ -102,12 +101,12 @@ class DropDownMarca extends StatelessWidget {
   _buildDecoration() {
     return InputDecoration(
       hintText: hintText ?? "",
-      // hintStyle: _setFontStyle(),
+      hintStyle: _setFontStyle(),
       border: _setBorderStyle(),
       focusedBorder: _setBorderStyle(),
       prefixIcon: prefix,
       prefixIconConstraints: prefixConstraints,
-
+      fillColor: _setFillColor(),
       filled: _setFilled(),
       isDense: true,
       contentPadding: const EdgeInsets.all(5),
@@ -141,6 +140,13 @@ class DropDownMarca extends StatelessWidget {
         return OutlineInputBorder(
           borderRadius: _setOutlineBorderRadius(),
         );
+    }
+  }
+
+  _setFillColor() {
+    switch (variant) {
+      default:
+        return Colors.white;
     }
   }
 

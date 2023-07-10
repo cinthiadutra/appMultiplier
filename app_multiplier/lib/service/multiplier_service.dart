@@ -1,6 +1,7 @@
 import 'package:app_multiplier/model/ano_model.dart';
 import 'package:app_multiplier/model/marcas_model.dart';
 import 'package:app_multiplier/model/modelo_model.dart';
+
 import 'package:app_multiplier/model/valor_response.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -33,24 +34,17 @@ class MultiplierService extends GetxService {
     }
   }
 
-  Future<Either<String, List<ModeloModel>>> buscarModelo(
+  Future<Either<String, List<ModeloElement>>> buscarModelo(
       String codeMarca) async {
     try {
-      final response = await dio.get(
+      var response = await dio.get(
           'https://parallelum.com.br/fipe/api/v1/carros/marcas/$codeMarca/modelos');
-      if (response.statusCode == 200) {
-        final data = response.data;
-        if (data is List) {
-          final modelo = data
-              .map((objetoJson) => ModeloModel.fromMap(objetoJson))
-              .toList();
-          return Right(modelo);
-        } else {
-          return Left(data.printError());
-        }
-      } else {
-        return Left('Erro na solicitação: ${response.statusCode}');
-      }
+
+      final model = Modelo.fromMap(response.data).modelos;
+
+      return right(model);
+
+
     } catch (e) {
       return Left('$e'.toString());
     }

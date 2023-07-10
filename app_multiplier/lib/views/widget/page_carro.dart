@@ -1,4 +1,5 @@
 import 'package:app_multiplier/controller/multiplier_controller.dart';
+import 'package:app_multiplier/views/widget/drop_down_ano.dart';
 import 'package:app_multiplier/views/widget/drop_down_marca.dart';
 import 'package:app_multiplier/views/widget/drop_down_modelo.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,7 @@ class PageCarro extends GetView<MultiplierController> {
                           items: controller.listaDeMarcas.value,
                           onChanged: (newValue) async {
                             controller.marcaSelecionada = newValue;
+                            controller.marcaSelecionada.obs;
                             await controller.listarModelos();
                           },
                           focusNode: FocusNode(),
@@ -58,16 +60,16 @@ class PageCarro extends GetView<MultiplierController> {
 
                             await controller.listarAnos();
                           })),
-                      Obx(() => DropDownModelo(
+                      Obx(() => DropDownAno(
                           focusNode: FocusNode(),
                           hintText: 'Ano',
                           margin: const EdgeInsets.only(top: 8),
                           alignment: Alignment.center,
-                          items: controller.listaDeModelos.value,
+                          items: controller.listaDeAno.value,
                           onChanged: (String newValue) async {
-                            controller.modeloSelecionado = newValue;
+                            controller.anoSelecionado = newValue;
 
-                            controller.listaDeModelos.obs;
+                            controller.anoSelecionado.obs;
 
                             await controller.listarValor();
                           })),

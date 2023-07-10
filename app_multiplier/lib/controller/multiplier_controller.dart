@@ -10,12 +10,14 @@ import 'package:get/get.dart';
 
 class MultiplierController extends GetxController {
   Rx<List<MarcasModel>> listaDeMarcas = Rx<List<MarcasModel>>([]);
-  Rx<List<ModeloModel>> listaDeModelos = Rx<List<ModeloModel>>([]);
+  Rx<List<ModeloElement>> listaDeModelos = Rx<List<ModeloElement>>([]);
+  Rx<List<Modelo>> listaDeModelosEAnos = Rx<List<Modelo>>([]);
   Rx<List<AnoModel>> listaDeAno = Rx<List<AnoModel>>([]);
   String modeloSelecionado = '';
   String marcaSelecionada = '';
   String anoSelecionado = '';
   TextEditingController valor = TextEditingController();
+  RxString valorCarro = RxString('0,00');
 
   Rx<ValorResponse> valoresCarros = Rx<ValorResponse>(ValorResponse(
       anoModelo: 0000,
@@ -48,8 +50,9 @@ class MultiplierController extends GetxController {
   }
 
   Future<void> listarAnos() async {
-    final response =
-        await service.buscarAno(marcaSelecionada, modeloSelecionado);
+    final request1 = marcaSelecionada;
+    final request2 = modeloSelecionado;
+    final response = await service.buscarAno(request1, request2);
     response.fold((error) => const HttpException('Erro na busca de ano'),
         (model) async {
       listaDeAno.value.assignAll(model);
@@ -65,6 +68,7 @@ class MultiplierController extends GetxController {
         (model) async {
       valoresCarros.value = model;
       valoresCarros.refresh();
+      valorCarro.value = model.valor.toString();
     });
   }
 }
