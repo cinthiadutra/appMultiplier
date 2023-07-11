@@ -10,8 +10,7 @@ class FormPageCarro extends GetView<MultiplierController> {
   @override
   // final controller = Get.put<MultiplierController>(MultiplierController());
 
-  final CarroModel item;
-  FormPageCarro(this.item, {super.key});
+  const FormPageCarro({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +121,15 @@ class FormPageCarro extends GetView<MultiplierController> {
                                   backgroundColor:
                                       MaterialStatePropertyAll(Colors.black)),
                               onPressed: () {
-                                controller.addCarro(item);
+                                controller.addCarro(CarroModel(
+                                    marca: controller.valoresCarros.value.marca,
+                                    modelo:
+                                        controller.valoresCarros.value.modelo,
+                                    ano: controller
+                                        .valoresCarros.value.anoModelo
+                                        .toString(),
+                                    valor:
+                                        controller.valoresCarros.value.valor));
                               },
                               child: const Text('Salvar',
                                   style: TextStyle(color: Colors.white)))

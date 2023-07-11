@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:app_multiplier/controller/multiplier_controller.dart';
-import 'package:app_multiplier/views/widget/detalhes_carro.dart';
+import 'package:app_multiplier/views/detalhes_carro.dart';
 
 class RowCarros extends GetView<MultiplierController> {
   final String modelo;
@@ -22,74 +22,91 @@ class RowCarros extends GetView<MultiplierController> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Image.asset('assets/images/mercedes.jpg'),
-        Column(
-          children: [
-            Text(
-              modelo.obs.value,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-            Text(
-              ano.obs.value,
-              style: const TextStyle(color: Colors.grey, fontSize: 10),
-            ),
-            TextButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Row(
-                          children: [
-                            const Icon(Icons.car_repair),
-                            Text(
-                              modelo,
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        content: DetalhesCarros(),
-                      );
-                    },
-                  );
-                },
-                child: const Text(
-                  'ver mais..,',
-                  style: TextStyle(color: Colors.blue),
-                ))
-          ],
-        ),
-        IconButton(
-            onPressed: () {
-              PopupMenuButton<String>(
-                color: Colors.transparent,
-                icon: const Icon(
-                  Icons.menu_open_rounded,
-                  color: Colors.blue,
-                ),
-                position: PopupMenuPosition.under,
-                itemBuilder: (BuildContext context) {
-                  return <PopupMenuEntry<String>>[
-                    PopupMenuItem<String>(
-                      value: '',
-                      child: const Text(
-                        'Excluir',
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                      onTap: () {
-                        controller.removeItem(item);
+    return SizedBox(
+      height: 80,
+      child: Row(
+        children: [
+          Image.asset(
+            'assets/images/mercedes.jpg',
+            height: 60,
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const SizedBox(
+                height: 4,
+              ),
+              Text(
+                modelo.obs.value,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+              ),
+              Text(
+                ano.obs.value,
+                style: const TextStyle(color: Colors.grey, fontSize: 12),
+              ),
+              TextButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Row(
+                            children: [
+                              const Icon(Icons.car_repair),
+                              Text(
+                                controller.valoresCarros.value.modelo,
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          content: DetalhesCarros(),
+                        );
                       },
-                    ),
-                  ];
-                },
-                onSelected: ((value) {}),
-              );
-            },
-            icon: const Icon(Icons.more_vert))
-      ],
+                    );
+                  },
+                  child: const Text(
+                    'ver mais..',
+                    style: TextStyle(color: Colors.blue),
+                  ))
+            ],
+          ),
+          const SizedBox(
+            width: 120,
+          ),
+          IconButton(
+              onPressed: () {
+                PopupMenuButton<String>(
+                  color: Colors.blue,
+                  icon: const Icon(
+                    Icons.menu_open_rounded,
+                    color: Colors.blue,
+                  ),
+                  position: PopupMenuPosition.over,
+                  itemBuilder: (BuildContext context) {
+                    return <PopupMenuEntry<String>>[
+                      PopupMenuItem<String>(
+                        value: '',
+                        child: const Text(
+                          'Excluir',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        onTap: () {
+                          controller.removeItem(item);
+                        },
+                      ),
+                    ];
+                  },
+                  onSelected: ((value) {}),
+                );
+              },
+              icon: const Icon(Icons.more_vert))
+        ],
+      ),
     );
   }
 }
