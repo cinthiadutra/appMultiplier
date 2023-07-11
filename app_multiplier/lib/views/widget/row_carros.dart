@@ -1,4 +1,5 @@
 import 'package:app_multiplier/model/carro_model.dart';
+import 'package:app_multiplier/views/cadastro_carro_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -31,82 +32,88 @@ class RowCarros extends GetView<MultiplierController> {
             height: 60,
           ),
           const SizedBox(
-            width: 20,
+            width: 10,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const SizedBox(
-                height: 4,
-              ),
-              Text(
-                modelo.obs.value,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-              ),
-              Text(
-                ano.obs.value,
-                style: const TextStyle(color: Colors.grey, fontSize: 12),
-              ),
-              TextButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Row(
-                            children: [
-                              const Icon(Icons.car_repair),
-                              Text(
-                                controller.valoresCarros.value.modelo,
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                          content: DetalhesCarros(),
-                        );
-                      },
-                    );
-                  },
-                  child: const Text(
-                    'ver mais..',
-                    style: TextStyle(color: Colors.blue),
-                  ))
-            ],
+          Expanded(
+            flex: 8,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  modelo.obs.value,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 12),
+                ),
+                Text(
+                  ano.obs.value,
+                  style: const TextStyle(color: Colors.grey, fontSize: 12),
+                ),
+                TextButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Row(
+                              children: [
+                                const Icon(Icons.car_repair),
+                                Text(
+                                  controller.valoresCarros.value.modelo,
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            content: DetalhesCarros(),
+                          );
+                        },
+                      );
+                    },
+                    child: const Text(
+                      'ver mais..',
+                      style: TextStyle(color: Colors.blue),
+                    ))
+              ],
+            ),
           ),
           const SizedBox(
-            width: 120,
+            width: 20,
           ),
-          IconButton(
-              onPressed: () {
-                PopupMenuButton<String>(
-                  color: Colors.blue,
-                  icon: const Icon(
-                    Icons.menu_open_rounded,
-                    color: Colors.blue,
-                  ),
-                  position: PopupMenuPosition.over,
-                  itemBuilder: (BuildContext context) {
-                    return <PopupMenuEntry<String>>[
-                      PopupMenuItem<String>(
-                        value: '',
-                        child: const Text(
-                          'Excluir',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        onTap: () {
-                          controller.removeItem(item);
-                        },
-                      ),
-                    ];
-                  },
-                  onSelected: ((value) {}),
-                );
-              },
-              icon: const Icon(Icons.more_vert))
+          Expanded(
+            flex: 1,
+            child: IconButton(
+                onPressed: () {
+                  showPopMenu(context);
+                },
+                icon: const Icon(Icons.more_vert)),
+          )
         ],
       ),
+    );
+  }
+
+  void showPopMenu(BuildContext context) {
+    PopupMenuButton<String>(
+      itemBuilder: (context) {
+        return [
+          PopupMenuItem<String>(
+            value: 'Excluir',
+            child: const Text('Excluir'),
+            onTap: () {
+              controller.removeItem(item);
+            },
+          ),
+        ];
+      },
+      onSelected: (selectedItem) {
+        // Faça algo com o item selecionado, se necessário
+      },
     );
   }
 }

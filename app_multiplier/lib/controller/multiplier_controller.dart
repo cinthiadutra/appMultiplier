@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app_multiplier/core/mixins/loader_mixin.dart';
 import 'package:app_multiplier/model/ano_model.dart';
 import 'package:app_multiplier/model/carro_model.dart';
 import 'package:app_multiplier/model/marcas_model.dart';
@@ -12,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MultiplierController extends GetxController {
+class MultiplierController extends GetxController with LoaderMixin {
   Rx<List<MarcasModel>> listaDeMarcas = Rx<List<MarcasModel>>([]);
   Rx<List<ModeloElement>> listaDeModelos = Rx<List<ModeloElement>>([]);
   Rx<List<Modelo>> listaDeModelosEAnos = Rx<List<Modelo>>([]);
@@ -24,7 +25,7 @@ class MultiplierController extends GetxController {
   MarcasModel marca = MarcasModel(codigo: '', nome: '');
   TextEditingController valor = TextEditingController();
   RxString valorCarro = RxString('0,00');
-  var isLoading = false.obs;
+  final loading = false.obs;
   var carrosCadastrados = <CarroModel>[].obs;
   final String _key = 'saved_items';
 
@@ -42,14 +43,20 @@ class MultiplierController extends GetxController {
       Rx<CarroModel>(CarroModel(marca: '', modelo: '', ano: '', valor: ''));
   final service = Get.put<MultiplierService>(MultiplierService());
 
+  @override
+  void onInit() {
+    super.onInit();
+    loaderListener(loading);
+  }
+
   Future<void> listarMarcas() async {
-    isLoading.value = true;
+    loading.toggle();
     final response = await service.buscarMarcas();
     listaDeModelos.value.clear();
     listaDeAno.value.clear();
     valorCarro.value = '0.00';
     response.fold((error) => printError(), (model) async {
-      isLoading.value = false;
+      loading.toggle();
 
       listaDeMarcas.value.assignAll(model);
       listaDeMarcas.refresh();
@@ -57,32 +64,38 @@ class MultiplierController extends GetxController {
   }
 
   Future<void> listarModelos() async {
+    loading.toggle();
     final request = marcaSelecionada;
     final response = await service.buscarModelo(request);
     response.fold((error) => const HttpException('Erro na busca'),
         (model) async {
+      loading.toggle();
       listaDeModelos.value.assignAll(model);
       listaDeModelos.refresh();
     });
   }
 
   Future<void> listarAnos() async {
+    loading.toggle();
     final request1 = marcaSelecionada;
     final request2 = modeloSelecionado;
     final response = await service.buscarAno(request1, request2);
     response.fold((error) => const HttpException('Erro na busca de ano'),
         (model) async {
+      loading.toggle();
       listaDeAno.value.assignAll(model);
       listaDeAno.refresh();
     });
   }
 
   Future<void> listarValor() async {
+    loading.toggle();
     final response = await service.buscarValor(
         marcaSelecionada, modeloSelecionado, anoSelecionado);
     response.fold(
         (error) => const HttpException('Erro ao buscar informações e valores'),
         (model) async {
+      loading.toggle();
       valorCarro.value = model.valor.toString();
       valorCarro.refresh();
       valorCarro.obs;
@@ -96,6 +109,7 @@ class MultiplierController extends GetxController {
     final itemsJson =
         carrosCadastrados.map((item) => jsonEncode(item)).toList();
     await prefs.setStringList(_key, itemsJson);
+
     // carroCadastrado.value = CarroModel(
     //     marca: valoresCarros.value.marca,
     //     modelo: valoresCarros.value.modelo,
@@ -107,6 +121,7 @@ class MultiplierController extends GetxController {
   void addCarro(CarroModel item) {
     carrosCadastrados.add(item);
     salvarCadastro();
+
     Navigator.pop(Get.context!);
   }
 

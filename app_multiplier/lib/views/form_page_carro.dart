@@ -79,23 +79,21 @@ class FormPageCarro extends GetView<MultiplierController> {
                         height: 10,
                       ),
                       Obx(() {
-                        return controller.isLoading.value
-                            ? const CircularProgressIndicator()
-                            : Container(
-                                width: 300,
-                                padding: const EdgeInsets.only(top: 5, left: 5),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
-                                  border: Border.all(
-                                    width: 1,
-                                  ),
-                                ),
-                                height: 35,
-                                child: Text(
-                                  controller.valorCarro.value.obs.value,
-                                  textAlign: TextAlign.left,
-                                ),
-                              );
+                        return Container(
+                          width: 300,
+                          padding: const EdgeInsets.only(top: 5, left: 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            border: Border.all(
+                              width: 1,
+                            ),
+                          ),
+                          height: 35,
+                          child: Text(
+                            controller.valorCarro.value.obs.value,
+                            textAlign: TextAlign.left,
+                          ),
+                        );
                       }),
                       const SizedBox(
                         height: 10,

@@ -1,4 +1,5 @@
 import 'package:app_multiplier/views/cadastro_carro_page.dart';
+import 'package:app_multiplier/views/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -27,20 +28,30 @@ class AppbarMobcar extends AppBar {
                 itemBuilder: (BuildContext context) {
                   return <PopupMenuEntry<String>>[
                     PopupMenuItem<String>(
-                      value: 'Veiculos Cadastrados',
+                      value: '',
                       child: const Text(
-                        'Veiculos Cadastrados',
+                        'Home',
                         style: TextStyle(color: Colors.blue),
                       ),
                       onTap: () {
-                        Get.to((() => CadastroCarroPage()));
+                        Get.to((() => const HomePage()));
+                      },
+                    ),
+                    PopupMenuItem<String>(
+                      value: 'Cadastrados',
+                      child: const Text(
+                        'Cadastrados',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onTap: () {
+                        Get.to((() => const CadastroCarroPage()));
                       },
                     ),
                     const PopupMenuItem<String>(
                       value: 'item2',
                       child: Text(
                         'Menu 2',
-                        style: TextStyle(color: Colors.blue),
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ];

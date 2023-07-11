@@ -3,12 +3,12 @@ import 'package:app_multiplier/model/marcas_model.dart';
 import 'package:app_multiplier/model/modelo_model.dart';
 
 import 'package:app_multiplier/model/valor_response.dart';
+import 'package:app_multiplier/webclient/custom_dio.dart';
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 class MultiplierService extends GetxService {
-  Dio dio = Dio();
+  var dio = CustomDio().instance;
 
   final String urlBase = 'https://parallelum.com.br/fipe';
 
@@ -43,8 +43,6 @@ class MultiplierService extends GetxService {
       final model = Modelo.fromMap(response.data).modelos;
 
       return right(model);
-
-
     } catch (e) {
       return Left('$e'.toString());
     }
